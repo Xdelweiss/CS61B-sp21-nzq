@@ -6,7 +6,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Nie Ziqiao
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -114,10 +114,55 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        Board b = this.board;
+
+        if (side == Side.WEST) {
+            b.setViewingPerspective(Side.WEST);
+        } else if (side == Side.EAST) {
+            b.setViewingPerspective(side.EAST);
+        } else if (side == Side.SOUTH) {
+            b.setViewingPerspective(Side.SOUTH);
+        }
+        changed = tiltNorth(b, this, changed);
+        b.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
             setChanged();
+        }
+        return changed;
+    }
+
+    /** Tilt the board toward NORTH by each column.
+     * Return true if the board has changed.     */
+    public boolean tiltNorth(Board b, Model model, boolean changed) {
+        for (int c = 0; c < b.size(); c += 1) {
+            changed = tiltNorthColumn(c, b, model, changed);
+        }
+        return changed;
+    }
+
+    /** Tilt one column from the board toward NORTH.
+     * Add score when two tiles merged.
+     * Return true if the column has changed.   */
+    public boolean tiltNorthColumn(int c, Board b, Model model, boolean changed) {
+        int[] merged_r = new int[b.size()];
+        for (int r = b.size() - 2; r >= 0; r -= 1) {
+            if (b.tile(c, r) != null) {
+                Tile t = b.tile(c, r);
+                for (int rd = b.size() - 1; rd > r; rd -= 1) {
+                    if ((b.tile(c, rd) == null || b.tile(c, r).value() == b.tile(c, rd).value())
+                            && merged_r[rd] != 1) {
+                        boolean merged = b.move(c, rd, t);
+                        changed = true;
+                        if (merged) {
+                            model.score += b.tile(c, rd).value();
+                            merged_r[rd] = 1;
+                        }
+                        break;
+                    }
+                }
+            }
         }
         return changed;
     }
