@@ -1,5 +1,6 @@
 package game2048;
 
+import java.security.KeyStore;
 import java.util.Formatter;
 import java.util.Observable;
 
@@ -138,6 +139,13 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i += 1) {
+            for (int j = 0; j < b.size(); j += 1) {
+                if (b.tile(i, j) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +156,13 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i += 1) {
+            for (int j =0; j < b.size(); j += 1) {
+                if (b.tile(i,j) != null && b.tile(i, j).value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,9 +174,33 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if (emptySpaceExists(b)) {
+            return true;
+        } else {
+            for (int row = 0; row < b.size(); row += 1) {
+                for (int col = 0; col < b.size(); col += 1) {
+                    if (row == 0 && col == 0) {
+                    } else if (row == 0) {
+                        if (b.tile(col, row).value() == b.tile(col - 1, row).value()) {
+                            return true;
+                        }
+                    } else if (col == 0) {
+                        if (b.tile(col, row).value() == b.tile(col, row - 1).value()) {
+                            return true;
+                        }
+                    } else {
+                        if (b.tile(col, row).value() == b.tile(col - 1, row).value()) {
+                            return true;
+                        }
+                        if (b.tile(col, row).value() == b.tile(col, row - 1).value()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
-
 
     @Override
      /** Returns the model as a string, used for debugging. */
