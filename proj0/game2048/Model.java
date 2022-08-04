@@ -147,14 +147,17 @@ public class Model extends Observable {
      * Return true if the column has changed.   */
     public boolean tiltNorthColumn(int c, Board b, Model model, boolean changed) {
         int[] merged_r = new int[b.size()];
+//        int[] occupied_r = new int[b.size()];
         for (int r = b.size() - 2; r >= 0; r -= 1) {
             if (b.tile(c, r) != null) {
                 Tile t = b.tile(c, r);
                 for (int rd = b.size() - 1; rd > r; rd -= 1) {
                     if ((b.tile(c, rd) == null || b.tile(c, r).value() == b.tile(c, rd).value())
-                            && merged_r[rd] != 1) {
+                            && merged_r[rd] != 1
+                            && noBlockWay(c, r, rd, b)) {
                         boolean merged = b.move(c, rd, t);
                         changed = true;
+//                        occupied_r[rd] = 1;
                         if (merged) {
                             model.score += b.tile(c, rd).value();
                             merged_r[rd] = 1;
@@ -165,6 +168,15 @@ public class Model extends Observable {
             }
         }
         return changed;
+    }
+
+    /** Return true if there is no tile black the way
+     * between current position and destination.    */
+    public boolean noBlockWay(int c, int r, int rd, Board b) {
+        for (int i = r + 1; i < rd; i += 1) {
+            if (b.tile(c, i) != null) { return false; }
+        }
+        return true;
     }
 
     /** Checks if the game is over and sets the gameOver variable
