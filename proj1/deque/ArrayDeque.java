@@ -122,9 +122,9 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (index >= size) {
-            return null;
-        }
+//        if (index >= size) {
+//            return null;
+//        }
         int itemStart = add1Circular(nextFirst);
         return items[(itemStart + index) % items.length];
     }
@@ -164,5 +164,20 @@ public class ArrayDeque<T> {
             ad.removeFirst();
             ad.printDeque();
         }
+//        System.out.println(ad.get(0));
+//        ad.addFirst(0);
+//        System.out.println(ad.get(0));
+//        ad.addLast(8);
+//        System.out.println(ad.get(1));
+//        ad.addLast(7);
+//        System.out.println(ad.get(2));
+
+        for (int i = 0; i < 50; i++) {
+            ad.addLast(i);
+        }
+        for (int i = 0; i > -50; i--) {
+            ad.addFirst(i);
+        }
+        System.out.println(ad.get(30));
     }
 }
