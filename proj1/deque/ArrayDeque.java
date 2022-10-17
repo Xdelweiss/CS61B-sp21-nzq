@@ -115,7 +115,7 @@ public class ArrayDeque<T> {
         }
         nextLast = minus1Circular(nextLast);
         T temp = items[nextLast];
-        items[nextLast] = null;
+//        items[nextLast] = null;
         size -= 1;
         memorySave();
         return temp;
