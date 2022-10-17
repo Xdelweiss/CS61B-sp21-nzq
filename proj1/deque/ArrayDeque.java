@@ -31,14 +31,14 @@ public class ArrayDeque<T> {
     }
     private void memorySave() {
         double R = (double) size / items.length;
-        if (R < 0.25) {
+        if (R < 0.25 && items.length > 10) {
             resize(items.length / 2);
         }
     }
     private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
         int itemStart = add1Circular(nextFirst);
-
+        int itemEnd = minus1Circular(nextLast);
         /*
          [e, f, g, a, b, c, d]  (size = 7, length = 7)
                 ^nextFirst 2
@@ -47,8 +47,12 @@ public class ArrayDeque<T> {
                                ^nextLast 7
                                           ^nextFist 13
         */
-        System.arraycopy(items, itemStart, a, 0, size - itemStart);
-        System.arraycopy(items, 0, a, size - itemStart, itemStart);
+        if (itemEnd > itemStart) {
+            System.arraycopy(items, itemStart, a, 0, itemEnd - itemStart + 1);
+        } else {
+            System.arraycopy(items, itemStart, a, 0, size - itemStart);
+            System.arraycopy(items, 0, a, size - itemStart, itemStart);
+        }
         nextFirst = a.length - 1;
         nextLast = size;
         items = a;
@@ -141,6 +145,23 @@ public class ArrayDeque<T> {
 
         while (!ad.isEmpty()) {
             ad.removeLast();
+            ad.printDeque();
+        }
+
+        for (int i = 0; i < 15; i++) {
+            ad.addFirst(i);
+        }
+        for (int i = 20; i < 50; i++) {
+            ad.addLast(i);
+        }
+
+        ad.printDeque();
+        System.out.println();
+        System.out.println(ad.get(0));
+        System.out.println(ad.get(30));
+
+        while (!ad.isEmpty()) {
+            ad.removeFirst();
             ad.printDeque();
         }
     }
