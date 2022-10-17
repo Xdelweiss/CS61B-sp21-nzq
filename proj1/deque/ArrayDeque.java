@@ -30,7 +30,7 @@ public class ArrayDeque<T> {
         }
     }
     private void memorySave() {
-        double R = size / items.length;
+        double R = (double) size / items.length;
         if (R < 0.25) {
             resize(items.length / 2);
         }
@@ -125,6 +125,23 @@ public class ArrayDeque<T> {
         return items[(itemStart + index) % items.length];
     }
 
+    public static void main(String[] args) {
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        for (int i = 0; i < 15; i++) {
+            ad.addFirst(i);
+        }
+        for (int i = 20; i < 50; i++) {
+            ad.addLast(i);
+        }
 
+        ad.printDeque();
+        System.out.println();
+        System.out.println(ad.get(0));
+        System.out.println(ad.get(30));
 
+        while (!ad.isEmpty()) {
+            ad.removeLast();
+            ad.printDeque();
+        }
+    }
 }
