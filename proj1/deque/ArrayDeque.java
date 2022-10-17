@@ -122,13 +122,16 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-//        if (index >= size) {
-//            return null;
-//        }
+        if (index < 0 || index >= size) {
+            return null;
+        }
         int itemStart = add1Circular(nextFirst);
-        return items[(itemStart + index) % items.length];
+        index = Math.floorMod(itemStart + index, items.length);
+//        return items[(itemStart + index) % items.length];
+        return items[index];
     }
 
+    /*
     public static void main(String[] args) {
         ArrayDeque<Integer> ad = new ArrayDeque<>();
         for (int i = 0; i < 15; i++) {
@@ -180,4 +183,6 @@ public class ArrayDeque<T> {
         }
         System.out.println(ad.get(30));
     }
+
+     */
 }
