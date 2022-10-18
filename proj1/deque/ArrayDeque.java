@@ -11,7 +11,7 @@ public class ArrayDeque<T> {
 
     public ArrayDeque() {
         nextFirst = 0;
-        nextLast = 0;
+        nextLast = 1;
         size = 0;
         items = (T[]) new Object[10];
     }
@@ -103,7 +103,7 @@ public class ArrayDeque<T> {
         }
         nextFirst = add1Circular(nextFirst);
         T temp = items[nextFirst];
-//        items[nextFirst] = null;
+        items[nextFirst] = null;
         size -= 1;
         memorySave();
         return temp;
@@ -115,7 +115,7 @@ public class ArrayDeque<T> {
         }
         nextLast = minus1Circular(nextLast);
         T temp = items[nextLast];
-//        items[nextLast] = null;
+        items[nextLast] = null;
         size -= 1;
         memorySave();
         return temp;
@@ -126,12 +126,21 @@ public class ArrayDeque<T> {
             return null;
         }
         int itemStart = add1Circular(nextFirst);
-        return (T) items[(itemStart + index) % items.length];
+        return items[(itemStart + index) % items.length];
     }
 
-    /*
+/*
     public static void main(String[] args) {
         ArrayDeque<Integer> ad = new ArrayDeque<>();
+        ad.addFirst(10);
+        ad.addFirst(20);
+        ad.addLast(30);
+        ad.removeFirst();
+        ad.removeFirst();
+        ad.removeLast();
+
+
+
         for (int i = 0; i < 15; i++) {
             ad.addFirst(i);
         }
@@ -181,6 +190,6 @@ public class ArrayDeque<T> {
         }
         System.out.println(ad.get(30));
     }
+*/
 
-     */
 }
