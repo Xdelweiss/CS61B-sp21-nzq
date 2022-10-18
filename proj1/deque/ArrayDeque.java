@@ -1,7 +1,5 @@
 package deque;
 
-import static java.lang.Math.min;
-
 // Circular ArrayDeque! Hooray!
 public class ArrayDeque<T> {
     private T[] items;
