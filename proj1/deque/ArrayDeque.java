@@ -126,9 +126,7 @@ public class ArrayDeque<T> {
             return null;
         }
         int itemStart = add1Circular(nextFirst);
-        index = Math.floorMod(itemStart + index, items.length);
-//        return items[(itemStart + index) % items.length];
-        return items[index];
+        return (T) items[(itemStart + index) % items.length];
     }
 
     /*
